@@ -1,0 +1,136 @@
+plugins {
+	id 'java'
+	id 'org.springframework.boot' version '2.6.2'
+	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+	id "org.asciidoctor.convert" version "2.4.0"
+	id 'com.epages.restdocs-api-spec' version '0.15.2'
+}
+
+ext {
+	set('apiSpecDir', file('build/api-spec'))
+	set('snippetsDir', file('build/generated-snippets'))
+	set('swaggerDataDir', file('../env/swagger/data'))
+}
+
+group = 'com.company'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '11'
+
+configurations {
+	compileOnly {
+		extendsFrom annotationProcessor
+	}
+}
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	compileOnly 'org.projectlombok:lombok'
+	developmentOnly 'org.springframework.boot:spring-boot-devtools'
+	annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
+	annotationProcessor 'org.projectlombok:lombok'
+
+	implementation 'org.springframework.boot:spring-boot-starter-data-rest'
+	implementation 'org.springframework.boot:spring-boot-starter-security'
+	implementation 'org.springframework.boot:spring-boot-starter-actuator'
+	implementation 'org.springframework.boot:spring-boot-starter-validation'
+	testImplementation 'org.springframework.boot:spring-boot-test-autoconfigure'
+	implementation 'org.springframework.security:spring-security-test'
+	testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc'
+	testImplementation 'com.epages:restdocs-api-spec-mockmvc:0.15.2'
+//	implementation 'org.springframework.cloud:spring-cloud-starter-circuitbreaker-resilience4j'
+//	implementation 'org.springframework.cloud:spring-cloud-starter-vault-config'
+
+	// Jdbc dependencies
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	implementation 'com.querydsl:querydsl-jpa'
+	annotationProcessor("com.querydsl:querydsl-apt:5.0.0:jpa") // querydsl JPAAnnotationProcessor 사용 지정
+	annotationProcessor("jakarta.persistence:jakarta.persistence-api") // java.lang.NoClassDefFoundError(javax.annotation.Entity) 발생 대응
+	annotationProcessor("jakarta.annotation:jakarta.annotation-api") // java.lang.NoClassDefFoundError (javax.annotation.Generated) 발생 대응
+	runtimeOnly 'com.h2database:h2'
+	runtimeOnly 'org.mariadb.jdbc:mariadb-java-client'
+}
+
+test {
+	useJUnitPlatform()
+}
+clean.doLast {
+	delete apiSpecDir
+	delete snippetsDir
+	// 자기 프로젝트의 파일만 삭제 한다.
+	def swaggerFiles = fileTree(swaggerDataDir) {
+		include "**/${project.name}*.json"
+	}
+	swaggerFiles.each {it.delete() }
+}
+
+//test {
+//	outputs.dir snippetsDir
+//}
+
+//https://stackoverflow.com/questions/55230558/how-to-modify-the-gradle-task-openapi3s-dependson-the-gradle-plugin-is-written
+test.finalizedBy {
+	tasks.findAll {it.name.startsWith("openapi3") }
+}
+
+openapi3 {
+	servers = [ { url = 'https://localhost:8080'} ]
+	title = 'VEGANA API'
+	description = 'VEGANA API Spec'
+	version = '0.1.0'
+	format = 'json'
+	outputFileNamePrefix = "${project.name}-openapi3"
+}
+
+postman {
+	title = 'VEGANA API'
+	version = '0.1.0'
+	baseUrl = 'https://localhost:8080'
+	outputFileNamePrefix = "${project.name}-postman"
+}
+
+task copyDocument(type: Copy) {
+	from apiSpecDir
+	into swaggerDataDir
+}
+
+build.finalizedBy {
+	tasks.findAll { it.name.startsWith("copyDocument")}
+}
+
+
+//plugins {
+//	id 'org.springframework.boot' version '2.6.2'
+//	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+//	id 'java'
+//}
+//
+//group = 'com.company'
+//version = '0.0.1-SNAPSHOT'
+//sourceCompatibility = '11'
+//
+//configurations {
+//	compileOnly {
+//		extendsFrom annotationProcessor
+//	}
+//}
+//
+//repositories {
+//	mavenCentral()
+//}
+//
+//dependencies {
+//	implementation 'org.springframework.boot:spring-boot-starter-web'
+//	compileOnly 'org.projectlombok:lombok'
+//	developmentOnly 'org.springframework.boot:spring-boot-devtools'
+//	annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
+//	annotationProcessor 'org.projectlombok:lombok'
+//	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+//}
+//
+//test {
+//	useJUnitPlatform()
+//}

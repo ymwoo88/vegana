@@ -1,0 +1,60 @@
+### ???? ??? ?? ??? ????? Local? ????.
+spring.profiles.active: local
+
+### app
+app:
+  module-name: vegana-api
+  log-file-name: app.log
+
+### logging
+logging:
+  file:
+    name: ./env/logs/${app.module-name}/${app.log-file-name}
+  logback:
+    rollingpolicy:
+      max-file-size: 10MB
+      max-history: 15
+  pattern:
+    console: "%clr(%d{yyyy-MM-dd HH:mm:ss.SSS}){faint} %clr(%5p) %clr(${PID:- }){magenta} %clr(---){faint} %clr([%13t]){faint}%clr([%X{X-Forwarded-For}]){faint}%clr([%X{logKey}]){faint} %clr(%-40.40logger{39}){cyan} %clr(:){faint} %m%n%wEx"
+    file: "%d{yyyy-MM-dd HH:mm:ss.SSS} %5p ${PID:- } --- [%13t][%X{X-Forwarded-For}][%X{logKey}] %-40.40logger{39} : %m%n%wEx"
+
+### Server
+server:
+  shutdown: graceful
+
+### Jpa
+spring.jpa:
+  open-in-view: false
+  properties:
+    hibernate:
+      show_sql: true
+      format_sql: true
+      default_batch_fetch_size: 1000
+      physical_naming_strategy: org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy
+  # https://docs.spring.io/spring-boot/docs/current/reference/html/howto.html#howto.data-access.jpa-properties
+  hibernate:
+    ddl-auto: none
+  generate-ddl: false
+
+### datasource
+datasource:
+  write:
+    driver-class-name: org.mariadb.jdbc.Driver
+    jdbc-url: jdbc:mysql://localhost:3306/vegana
+    username: vegana
+    password: Vegana1!
+    minimum-idle: 5
+    maximum-pool-size: 100
+    max-lifetime: 120000
+    keepalive-time: 60000
+    idle-timeout: 60000
+  read:
+    driver-class-name: org.mariadb.jdbc.Driver
+    jdbc-url: jdbc:mysql://localhost:3306/vegana
+    username: vegana
+    password: Vegana1!
+    minimum-idle: 5
+    maximum-pool-size: 100
+    max-lifetime: 120000
+    keepalive-time: 60000
+    idle-timeout: 60000

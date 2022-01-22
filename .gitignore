@@ -1,0 +1,22 @@
+# gradle
+!gradle/wrapper/gradle-wrapper.jar
+!gradle/wrapper/gradle-wrapper.properties
+
+# intellij
+.gradle/
+.idea/
+out/
+build/
+generated/
+node_modules/
+.envrc
+.DS_Store
+
+# env
+env/logs/
+env/mysql/data/
+env/redis/data/
+env/swagger/data/
+
+application-local.properties
+application-local.yml
