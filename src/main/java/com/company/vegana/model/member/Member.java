@@ -2,8 +2,12 @@ package com.company.vegana.model.member;
 
 import com.company.vegana.model.common.AbstractAudit;
 import lombok.*;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import java.util.Collection;
 
 @ToString
 @Getter
@@ -11,7 +15,37 @@ import javax.persistence.*;
 @EqualsAndHashCode(of = {"id"}, callSuper = false)
 @Table(name = "MEMBER")
 @Entity
-public class Member extends AbstractAudit<Member> {
+public class Member extends AbstractAudit<Member> implements UserDetails {
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return null;
+    }
+
+    @Override
+    public String getUsername() {
+        return null;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return false;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return false;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return false;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return false;
+    }
 
     public enum Authority {
         ROLE_USER, ROLE_ADMIN
@@ -30,7 +64,7 @@ public class Member extends AbstractAudit<Member> {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "AUTHORITY")
-    private Authority authority;
+    private Authority authority = Authority.ROLE_USER;
 
     @Column(name = "NAME")
     private String name;

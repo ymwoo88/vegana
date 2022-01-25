@@ -35,6 +35,15 @@ import java.util.stream.Collectors;
 public class GlobalExceptionHandler {
 
     /**
+     * 어플리케이션 표준 에러 처리
+     * @see VgnRuntimeException
+     */
+    @ExceptionHandler(VgnRuntimeException.class)
+    public ResponseEntity<ErrorResponse> handleException(VgnRuntimeException e) {
+        return buildResponse(e, e.getErrorCode(), e.getDetail());
+    }
+
+    /**
      * 핸들링 되지 않은 에러 발생 대비
      * 여기로 호출된 에러는 메서드 추가하여 핸들링하도록 해야 한다.
      */
