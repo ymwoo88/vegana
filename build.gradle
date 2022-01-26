@@ -44,6 +44,11 @@ dependencies {
 //	implementation 'org.springframework.cloud:spring-cloud-starter-circuitbreaker-resilience4j'
 //	implementation 'org.springframework.cloud:spring-cloud-starter-vault-config'
 
+	// jwt 관련 의존성
+	implementation 'io.jsonwebtoken:jjwt-api:0.11.2'
+	runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.11.2'
+	runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.11.2'
+
 	// Jdbc dependencies
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation 'com.querydsl:querydsl-jpa'
@@ -57,6 +62,7 @@ dependencies {
 test {
 	useJUnitPlatform()
 }
+
 clean.doLast {
 	delete apiSpecDir
 	delete snippetsDir

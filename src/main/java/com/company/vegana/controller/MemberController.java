@@ -19,64 +19,13 @@ public class MemberController {
 
     private final MemberService memberService;
 
-    @PostMapping
-    public ResponseEntity<ApiResponse<MemberDto>> create(@RequestBody MemberDto dto) {
-        return ResponseEntity.ok(
-                ApiResponse.<MemberDto>builder()
-                        .logKey(LogKey.get())
-                        .data(memberService.create(dto))
-                        .build()
-        );
+    @GetMapping("/me")
+    public ResponseEntity<MemberDto> getMyMemberInfo() {
+        return ResponseEntity.ok(memberService.getMyInfo());
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<ApiResponse<MemberDto>> detail(@PathVariable Long id) {
-        return ResponseEntity.ok(
-                ApiResponse.<MemberDto>builder()
-                        .logKey(LogKey.get())
-                        .data(memberService.detail(MemberDto.builder().id(id).build()))
-                        .build()
-        );
-    }
-
-    @GetMapping("/list")
-    public ResponseEntity<ApiResponse<List<MemberDto>>> searchList(@ModelAttribute MemberSearch search) {
-        return ResponseEntity.ok(
-                ApiResponse.<List<MemberDto>>builder()
-                        .logKey(LogKey.get())
-                        .data(memberService.searchList(search))
-                        .build()
-        );
-    }
-
-    @GetMapping("/page")
-    public ResponseEntity<ApiResponse<Page<MemberDto>>> searchPage(@ModelAttribute MemberSearch search) {
-        return ResponseEntity.ok(
-                ApiResponse.<Page<MemberDto>>builder()
-                        .logKey(LogKey.get())
-                        .data(memberService.searchPage(search))
-                        .build()
-        );
-    }
-
-    @PutMapping
-    public ResponseEntity<ApiResponse<MemberDto>> update(@RequestBody MemberDto dto) {
-        return ResponseEntity.ok(
-                ApiResponse.<MemberDto>builder()
-                        .logKey(LogKey.get())
-                        .data(memberService.update(dto))
-                        .build()
-        );
-    }
-
-    @DeleteMapping("/{id}")
-    public ResponseEntity<ApiResponse<String>> delete(@PathVariable Long id) {
-        memberService.delete(id);
-        return ResponseEntity.ok(
-                ApiResponse.<String>builder()
-                        .logKey(LogKey.get())
-                        .data("delete success")
-                        .build()
-        );
+    @GetMapping("/{email}")
+    public ResponseEntity<MemberDto> getMemberInfo(@PathVariable String email) {
+        return ResponseEntity.ok(memberService.getMemberInfo(email));
     }
 }
