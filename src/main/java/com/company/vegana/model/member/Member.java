@@ -30,7 +30,7 @@ public class Member extends AbstractAudit<Member> {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "AUTHORITY")
-    private Authority authority;
+    private Authority authority = Authority.ROLE_USER;
 
     @Column(name = "NAME")
     private String name;

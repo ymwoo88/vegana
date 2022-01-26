@@ -58,3 +58,7 @@ datasource:
     max-lifetime: 120000
     keepalive-time: 60000
     idle-timeout: 60000
+
+### jwt
+jwt:
+  secret: ZHVraW1kdWtpbWR1a2ltZHVraW0tdmVnYW5hcHJvZHVjdC1zcHJpbmdib290LXltd29veW13b295bXdvb3ltd29vCg==
