@@ -12,7 +12,7 @@ ext {
 	set('swaggerDataDir', file('../env/swagger/data'))
 }
 
-group = 'com.company'
+group = 'com.vegana'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '11'
 
