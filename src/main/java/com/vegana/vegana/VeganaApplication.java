@@ -10,7 +10,7 @@ import org.springframework.boot.context.properties.ConfigurationPropertiesScan;
 @SpringBootApplication(scanBasePackages = {VeganaApplication.BASE_PACKAGE_CORE})
 public class VeganaApplication {
 
-	public static final String BASE_PACKAGE_CORE = "com.company.vegana";
+	public static final String BASE_PACKAGE_CORE = "com.vegana.vegana";
 
 	public static void main(String[] args) {
 		SpringApplication.run(VeganaApplication.class, args);
