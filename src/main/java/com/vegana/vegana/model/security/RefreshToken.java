@@ -16,6 +16,7 @@ public class RefreshToken {
     @Column(name = "MEMBER_KEY")
     private String key;
 
+    @Column(name = "VALUE")
     private String value;
 
     public RefreshToken updateValue(String token) {

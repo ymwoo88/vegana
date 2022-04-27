@@ -3,8 +3,10 @@ package com.vegana.vegana.controller;
 import com.vegana.vegana.model.member.MemberDto;
 import com.vegana.vegana.service.MemberService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @RequiredArgsConstructor
 @RestController
@@ -14,12 +16,12 @@ public class MemberController {
     private final MemberService memberService;
 
     @GetMapping("/me")
-    public ResponseEntity<MemberDto> getMyMemberInfo() {
-        return ResponseEntity.ok(memberService.getMyInfo());
+    public MemberDto getMyMemberInfo() {
+        return memberService.getMyInfo();
     }
 
     @GetMapping("/{email}")
-    public ResponseEntity<MemberDto> getMemberInfo(@PathVariable String email) {
-        return ResponseEntity.ok(memberService.getMemberInfo(email));
+    public MemberDto getMemberInfo(@PathVariable String email) {
+        return memberService.getMemberInfo(email);
     }
 }

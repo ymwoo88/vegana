@@ -3,12 +3,17 @@ package com.vegana.vegana.controller;
 import com.vegana.vegana.model.user.UserDto;
 import com.vegana.vegana.model.user.UserSearch;
 import com.vegana.vegana.service.UserService;
-import com.vegana.vegana.servlet.dto.ApiResponse;
-import com.vegana.vegana.servlet.log.LogKey;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
@@ -20,63 +25,32 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping
-    public ResponseEntity<ApiResponse<UserDto>> create(@RequestBody UserDto dto) {
-        return ResponseEntity.ok(
-                ApiResponse.<UserDto>builder()
-                        .logKey(LogKey.get())
-                        .data(userService.create(dto))
-                        .build()
-        );
+    public UserDto create(@RequestBody UserDto dto) {
+        return userService.create(dto);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ApiResponse<UserDto>> detail(@PathVariable Long id) {
-        return ResponseEntity.ok(
-                ApiResponse.<UserDto>builder()
-                        .logKey(LogKey.get())
-                        .data(userService.detail(UserDto.builder().id(id).build()))
-                        .build()
-        );
+    public UserDto detail(@PathVariable Long id) {
+        return userService.detail(UserDto.builder().id(id).build());
     }
 
     @GetMapping("/list")
-    public ResponseEntity<ApiResponse<List<UserDto>>> searchList(@ModelAttribute UserSearch search) {
-        return ResponseEntity.ok(
-                ApiResponse.<List<UserDto>>builder()
-                        .logKey(LogKey.get())
-                        .data(userService.searchList(search))
-                        .build()
-        );
+    public List<UserDto> searchList(@ModelAttribute UserSearch search) {
+        return userService.searchList(search);
     }
 
     @GetMapping("/page")
-    public ResponseEntity<ApiResponse<Page<UserDto>>> searchPage(@ModelAttribute UserSearch search) {
-        return ResponseEntity.ok(
-                ApiResponse.<Page<UserDto>>builder()
-                        .logKey(LogKey.get())
-                        .data(userService.searchPage(search))
-                        .build()
-        );
+    public Page<UserDto> searchPage(@ModelAttribute UserSearch search) {
+        return userService.searchPage(search);
     }
 
     @PutMapping
-    public ResponseEntity<ApiResponse<UserDto>> update(@RequestBody UserDto dto) {
-        return ResponseEntity.ok(
-                ApiResponse.<UserDto>builder()
-                        .logKey(LogKey.get())
-                        .data(userService.update(dto))
-                        .build()
-        );
+    public UserDto update(@RequestBody UserDto dto) {
+        return userService.update(dto);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<ApiResponse<String>> delete(@PathVariable Long id) {
+    public void delete(@PathVariable Long id) {
         userService.delete(id);
-        return ResponseEntity.ok(
-                ApiResponse.<String>builder()
-                        .logKey(LogKey.get())
-                        .data("delete success")
-                        .build()
-        );
     }
 }
