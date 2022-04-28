@@ -1,4 +1,4 @@
-### ???? ??? ?? ??? ????? Local? ????.
+### 환경변수
 spring.profiles.active: local
 
 ### app
@@ -41,8 +41,8 @@ datasource:
   write:
     driver-class-name: org.mariadb.jdbc.Driver
     jdbc-url: jdbc:mysql://localhost:3306/vegana
-    username: vegana
-    password: Vegana1!
+    username: root
+    password: dbql#123
     minimum-idle: 5
     maximum-pool-size: 100
     max-lifetime: 120000
@@ -51,8 +51,8 @@ datasource:
   read:
     driver-class-name: org.mariadb.jdbc.Driver
     jdbc-url: jdbc:mysql://localhost:3306/vegana
-    username: vegana
-    password: Vegana1!
+    username: root
+    password: dbql#123
     minimum-idle: 5
     maximum-pool-size: 100
     max-lifetime: 120000
